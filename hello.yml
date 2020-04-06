@@ -1,0 +1,2 @@
+- name: myhelloworld
+  shell: mkdir -p /root/xixi
