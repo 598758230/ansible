@@ -1,0 +1,28 @@
+- name: 创建主机目录
+  shell: mkdir -p /server/data/docker/jfrog/artifactory
+- name: 下载docker 镜像
+  shell: docker pull {{artifactory_image_name}}
+- name: 复制mysql-connector-java-5.1.47.tar.gz到指定目录
+  copy: 
+      src: roles/artifactory/templates/mysql-connector-java-5.1.47.tar.gz
+      dest: /server/data/docker/jfrog/artifactory/lib/mysql-connector-java-5.1.47.tar.gz
+- name: 对mysql-connector-java-5.1.47.tar.gz 解压
+  shell：tar -zxvf /server/data/docker/jfrog/artifactory/lib/mysql-connector-java-5.1.47.tar.gz
+- name: 此目录（在主机上）必须可由Artifactory用户写入
+  shell: chown -R 1030:1030 /server/data/docker/jfrog/artifactory
+- name: 创建数据库
+  shell: cd /root
+- name: 启动容器
+  shell: >
+      docker run -d --name artifactory \
+             --restart always \
+             -e DB_TYPE=mysql \
+             -e DB_HOST={{artifactory_db_host}} \
+             -e DB_PORT={{artifactory_db_port}} \
+             -e DB_USER={{artifactory_db_user}} \
+             -e DB_PASSWORD={{artifactory_db_password}} \
+             -e SERVER_XML_ARTIFACTORY_MAX_THREADS=500 \
+             -e EXTRA_JAVA_OPTIONS='-Xms512m -Xmx2g -Xss256k -XX:+UseG1GC' \
+             -v /server/data/docker/jfrog/artifactory/lib/mysql-connector-java-5.1.47/mysql-connector-java-5.1.47.jar:/opt/jfrog/artifactory/tomcat/lib/mysql-connector-java-5.1.40-bin.jar \
+             -v /server/data/docker/jfrog/artifactory:/var/opt/jfrog/artifactory \
+             -p {{artifactory_port_8081}}:8081 {{artifactory_image_name}}

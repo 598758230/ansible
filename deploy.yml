@@ -1,0 +1,18 @@
+- hosts: "jcloudservers"
+  gather_facts: true
+  remote_user: root
+  roles:
+#    - docker
+#    - mysql
+#    - redis
+#    - activemq
+#    - mongo
+#    - solr
+#    - ldap
+    - fdfs
+#    - nginx
+#    - gitlab
+#    - jenkins
+#    - sonarqube
+#    - es
+#    - es-cluster

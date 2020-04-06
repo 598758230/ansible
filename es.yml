@@ -1,0 +1,5 @@
+- hosts: es
+  gather_facts: False
+  remote_user: root
+  roles: 
+    - es

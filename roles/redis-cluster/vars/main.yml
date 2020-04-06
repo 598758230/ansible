@@ -1,0 +1,8 @@
+redis: 
+    image: 
+        name: 172.16.100.169:1180/tools/redis:5
+    process: 
+        name: redis
+    password: rECtoroLUnco
+    root: 
+        path: /server/data/docker/redis

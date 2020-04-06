@@ -1,0 +1,15 @@
+- hosts: server191
+  gather_facts: False
+  remote_user: root
+  roles:
+    - fdfs-storage
+- hosts: server192
+  gather_facts: False
+  remote_user: root
+  roles:
+    - fdfs-storage
+- hosts: server193
+  gather_facts: False
+  remote_user: root
+  roles:
+    - fdfs-storage

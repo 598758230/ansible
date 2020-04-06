@@ -1,0 +1,15 @@
+- hosts: es_node3
+  gather_facts: False
+  remote_user: root
+  roles: 
+    - es-cluster
+- hosts: es_node2
+  gather_facts: False
+  remote_user: root
+  roles: 
+    - es-cluster
+- hosts: es_node1
+  gather_facts: False
+  remote_user: root
+  roles: 
+    - es-cluster

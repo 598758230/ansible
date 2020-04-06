@@ -1,0 +1,6 @@
+mongo_image_name: 172.16.100.169:1180/tools/mongo
+mongo_process_name: mongo
+mongo_port_27017: 27017
+mongo_root_path: /server/data/docker/mongo
+mongo_init_user: root
+mongo_init_password: cHRaolTyRdAR

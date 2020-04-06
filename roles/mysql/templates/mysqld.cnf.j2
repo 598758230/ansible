@@ -1,0 +1,16 @@
+[mysqld]
+pid-file        = /var/run/mysqld/mysqld.pid
+socket          = /var/run/mysqld/mysqld.sock
+datadir         = /var/lib/mysql
+#log-error      = /var/log/mysql/error.log
+# By default we only accept connections from localhost
+#bind-address   = 127.0.0.1
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+## 同一局域网内注意要唯一
+server-id={{mysql_server_id}}  
+## 开启二进制日志功能，可以随便取（关键）
+log-bin=mysql-bin
+max_connections=5000
+innodb_log_file_size=256M
+max_allowed_packet=34M

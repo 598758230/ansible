@@ -1,0 +1,11 @@
+- hosts: server193
+  gather_facts: False
+  remote_user: root
+  roles:
+    - fdfs-tracker
+- hosts: server192
+  gather_facts: False
+  remote_user: root
+  roles:
+    - fdfs-tracker
+

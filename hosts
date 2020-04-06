@@ -1,0 +1,27 @@
+[server188]
+172.16.100.188
+[server191]
+172.16.100.191
+[server192]
+172.16.100.192
+[server193]
+172.16.100.193
+[redis_servers]
+redis1 ansible_host=172.16.100.191 redis_port=6379
+redis2 ansible_host=172.16.100.192 redis_port=6379
+redis3 ansible_host=172.16.100.193 redis_port=6379
+redis4 ansible_host=172.16.100.188 redis_port=6379
+redis5 ansible_host=172.16.100.170 redis_port=6379
+redis6 ansible_host=172.16.100.171 redis_port=6379
+[redis]
+redis ansible_host=172.16.100.191 redis_port=6379 redis_cluster_hosts="172.16.100.191:6379  172.16.100.192:6379  172.16.100.193:6379 172.16.100.188:6379 172.16.100.170:6379 172.16.100.171:6379"
+[mongo]
+172.16.100.195
+[es_node1]
+172.16.100.191 es_node_name=icerno_1
+[es_node2]
+172.16.100.192 es_node_name=icerno_2
+[es_node3]
+172.16.100.193 es_node_name=icerno_3
+[es]
+es 172.16.101.143 ansible_ssh_pass=root@123

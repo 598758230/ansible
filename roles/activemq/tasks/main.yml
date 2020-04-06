@@ -1,0 +1,10 @@
+- name: 拉取docker镜像
+  shell: docker pull {{activemq_image_name}}
+- name: 停止之前的容器
+  shell: docker stop {{activemq_process_name}}
+- name: 删除之前的容器
+  shell: docker rm {{activemq_process_name}}
+- name: 启动镜像
+  shell: >
+      docker run -di --name {{activemq_process_name}} -p {{activemq_port_61616}}:61616 -p {{activemq_port_8161}}:8161 \
+          -e ACTIVEMQ_ADMIN_LOGIN={{activemq_name}} -e ACTIVEMQ_ADMIN_PASSWORD={{activemq_password}} --restart=always {{activemq_image_name}}

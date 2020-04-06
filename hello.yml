@@ -1,3 +1,6 @@
 - name: myhelloworld
-  shell: mkdir -p /root/xixi
+  host: all
+  tasks: 
+    - name: tasktest
+      shell: mkdir -p /root/xixi/
 

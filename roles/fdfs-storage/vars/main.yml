@@ -1,0 +1,18 @@
+fdfs: 
+    process: 
+        name: storage
+    image: 
+        name: storage
+    tracker: 
+        hosts: 
+         - 172.16.100.193
+         - 172.16.100.192
+    data: /home/fdfs/fastdf0
+    config: /etc/fdfs
+http: 
+    tracker: 
+        server: 
+            port: 8080 
+nginx: 
+    config: /usr/local/nginx/conf
+        

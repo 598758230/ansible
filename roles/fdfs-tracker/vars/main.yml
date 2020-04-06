@@ -1,0 +1,11 @@
+fdfs: 
+    process:
+        name: tracker
+    image:
+        name: tracker
+    config: /etc/fdfs
+http: 
+    tracker: 
+        server: 
+            port: 8080 
+        

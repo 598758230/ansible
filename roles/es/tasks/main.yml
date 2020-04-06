@@ -1,0 +1,21 @@
+#- name: 停止之前的容器
+#  shell: docker stop {{mongo_process_name}}
+#- name: 删除docker容器
+#  shell: docker rm {{mongo_process_name}}
+#- name: 修改宿主机配置
+#  shell: echo "vm.max_map_count=655360" >> /etc/sysctl.conf 
+#- name: 使配置生效
+#  shell: sysctl -p
+- name: 拉取docker镜像
+  shell: docker pull {{es_image_name}}
+- name: 创建映射目录config
+  shell: mkdir -p  {{es_root_path}}/config
+- name: 创建data映射目录
+  shell: mkdir -p {{es_root_path}}/data
+- name: 拷贝配置文件
+  template: src=roles/es/templates/elasticsearch.yml dest={{es_root_path}}/config/elasticsearch.yml mode="u=rw,g=rw,o=rw"
+- name: 启动es
+  shell: >
+      docker run -d --name elasticsearch \
+       -v {{es_root_path}}/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml \
+       -v {{es_root_path}}/data:/usr/share/elasticsearch/data --net host {{es_image_name}}

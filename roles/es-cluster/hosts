@@ -1,0 +1,6 @@
+[es_node1]
+172.16.100.191 es_node_name=icerno_1
+[es_node2]
+172.16.100.192 es_node_name=icerno_2
+[es_node3]
+172.16.100.193 es_node_name=icerno_3

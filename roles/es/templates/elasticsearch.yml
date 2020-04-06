@@ -1,0 +1,15 @@
+cluster.name: icerno
+node.name: icerno_3
+network.host: 0.0.0.0
+http.port: 9200
+transport.tcp.port: 9300
+node.master: true
+node.data: true
+discovery.zen.ping.unicast.hosts: ["172.16.100.191:9300", "172.16.100.192:9300"]
+discovery.zen.minimum_master_nodes: 1
+node.ingest: true
+bootstrap.memory_lock: false
+node.max_local_storage_nodes: 3
+
+http.cors.enabled: true
+http.cors.allow-origin: /.*/

@@ -1,0 +1,16 @@
+cluster.name: {{es_couster_name}}
+node.name: {{es_node_name}}
+network.host: {{es_network_host}}
+http.port: {{es_http_port}}
+transport.tcp.port: {{es_transport_tcp_port}}
+node.master: {{es_node_master}}
+node.data: {{es_node_data}}
+discovery.zen.ping.unicast.hosts: [{% for ip in es_discovery_zen_ping_unicast_hosts: %}"{{ip}}"{% if loop.last == false %},{% endif %}{% endfor %}]
+discovery.zen.minimum_master_nodes: {{es_discovery_zen_minimum_master_nodes}}
+node.ingest: {{es_node_ingest}}
+bootstrap.memory_lock: {{es_bootstrap_memory_lock}}
+node.max_local_storage_nodes: {{es_node_max_local_storage_nodes}}
+
+http.cors.enabled: {{es_http_cors_enabled}}
+http.cors.allow-origin: {{es_http_cors_allow_origin}}
+

@@ -1,0 +1,16 @@
+- name: 拷贝163的yum源到目标主机
+  template: src=roles/docker/templates/CentOS7-Base-163.repo dest=/etc/yum.repos.d/CentOS-Base.repo
+- name: 配置docker的yum源
+  shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+- name: 目标主机执行 yum clean all
+  shell: yum clean all
+- name: 目标主机执行 yum makecache
+  shell: yum makecache
+- name: 安装docker依赖包
+  shell: yum install -y yum-utils device-mapper-persistent-data lvm2
+- name: 安装 docker-ce
+  shell: yum install docker-ce-18.06.1.ce-3.el7.x86_64 -y
+- name: 启动docker服务
+  shell: systemctl start docker
+- name: 设置docker开机启动
+  shell: systemctl enable docker

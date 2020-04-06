@@ -1,0 +1,11 @@
+- name: 拉去镜像
+  shell: docker pull {{redis.image.name}}
+- name: 创建data目录
+  shell: mkdir -p {{redis.root.path}}/{{redis_port}}/data
+- name: 启动redis容器镜像
+  shell: >
+      docker run --name {{redis.process.name}}{{redis_port}} -p {{redis_port}}:6379 -p {{redis_port+10000}}:16379 -d \
+          -v {{redis.root.path}}/{{redis_port}}/data:/data \
+          --restart=always {{redis.image.name}} redis-server \
+          --requirepass "{{redis.password}}" --appendonly yes --appendfsync always --protected-mode no --cluster-enabled yes \
+          --bind 0.0.0.0 --masterauth {{redis.password}}

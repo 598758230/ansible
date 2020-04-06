@@ -1,0 +1,37 @@
+- name: 创建所需目录
+  shell: mkdir -p /opt/fdfs
+- name: 拷贝安装包到目标路径
+  copy: 
+      src: roles/fdfs-tracker/files/
+      dest: /opt/fdfs/
+      owner: root
+      group: root
+      mode: u=rw,g=rw,o=rw
+- name: 拷贝模板start.sh
+  template:
+      src: roles/fdfs-tracker/templates/start.sh
+      dest: /opt/fdfs/start.sh
+      owner: root
+      group: root
+      mode: u=rw,g=rw,o=rw
+- name: 拷贝模板tracker.conf
+  template:
+      src: roles/fdfs-tracker/templates/tracker.conf
+      dest: /opt/fdfs/tracker.conf
+      owner: root
+      group: root
+      mode: u=rw,g=rw,o=rw
+
+- name: 运行dockerfile生成docker镜像
+  shell: docker build -f /opt/fdfs/Dockerfile -t {{fdfs.image.name}} /opt/fdfs/
+- name: 创建目录
+  shell: mkdir -p {{fdfs.config}} 
+- name: 拷贝配置文件到映射目录
+  shell: cp /opt/fdfs/{start.sh,tracker.conf} {{fdfs.config}}
+- name: 启动容器
+  shell: >
+      docker run -di \
+      --net=host \
+      --name {{fdfs.process.name}} \
+      -v {{fdfs.config}}/tracker.conf:/etc/fdfs/tracker.conf \
+      --restart=always {{fdfs.image.name}} 

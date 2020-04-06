@@ -1,0 +1,7 @@
+- name: 拉取镜像
+  shell: docker pull {{ldap_image_name}}
+- name: 启动容器
+  shell: >
+      docker run --name {{ldap_process_name}} --restart=always --detach --privileged=true \ 
+       -p {{ldap_port_389}}:389 -p {{ldap_port_636}}:636 --env LDAP_ORGANISATION="{{ldap_organisation}}" --env LDAP_DOMAIN="{{ldap_domain}}" \
+      --env LDAP_ADMIN_PASSWORD="{{ldap_admin_password}}" {{ldap_image_name}}

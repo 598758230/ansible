@@ -1,0 +1,19 @@
+- name: 拉取nginx镜像
+  shell: docker pull {{nginx_image_name}}
+- name: 创建用于挂载的日志目录
+  shell: sudo mkdir -p /server/data/docker/nginx/logs
+- name: 创建配置文件存放目录
+  shell: sudo mkdir -p /server/data/docker/nginx/conf
+- name: 创建app目录
+  shell: sudo mkdir -p /home/app/nginx
+- name: 创建domain目录
+  shell: sudo mkdir -p /server/data/docker/nginx/conf/domains
+- name: 拷贝配置参数
+  template: src=roles/nginx/templates/nginx.conf dest=/server/data/docker/nginx/conf/nginx.conf
+- name: 拷贝domain
+  template: src=roles/nginx/templates/effi.conf dest=/server/data/docker/nginx/conf/domains/effi.conf
+- name: 启动
+  shell: >
+      docker run --name {{nginx_process_name}} --net host --restart=always --privileged=true \
+      -v /home/app/nginx:/home/app/nginx -v /server/data/docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf \
+      -v /server/data/docker/nginx/conf/domains:/etc/nginx/domains -v /server/data/docker/nginx/logs:/var/log/nginx  -d {{nginx_image_name}}

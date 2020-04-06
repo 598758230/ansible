@@ -1,0 +1,11 @@
+- name: 安装expect
+  shell: yum -y install expect
+- name: 复制shell脚本到指定目录
+  template: 
+      src: roles/redis-cluster/templates/redis-cluster.sh
+      dest: /opt/redis-cluster.sh
+      owner: root
+      group: root
+      mode: u=rwx,g=rw,o=rw
+- name: 创建集群
+  shell: sh /opt/redis-cluster.sh 

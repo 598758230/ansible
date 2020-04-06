@@ -1,0 +1,19 @@
+- name: 创建目录
+  shell:  mkdir -p /server/data/docker/jenkins_home
+- name: 设置目录所属用户及用户组
+  shell: chown -R 1000:1000 /server/data/docker/jenkins_home
+- name: 为目录设置权限
+  shell: chmod 775 /server/data/docker/jenkins_home
+- name: 再次为目录设置所属用户及用户组
+  shell: chown -R 1000:1000 /server/data/docker/jenkins_home
+- name: 拉取镜像
+  shell: docker pull {{jenkins_image_name}}
+- name: 创建容器
+  shell: >
+      docker run -d -p {{jenkins_port_8080}}:8080 -p {{jenkins_port_50000}}:50000 \
+      --restart=always --privileged=true --name {{jenkins_ps_name}} \
+      -v /usr/bin/mv:/usr/bin/mv \
+      -v {{jenkins_maven_path}}:/var/maven_home \
+      -v /etc/localtime:/etc/localtime \
+      -v /server/data/docker/jenkins_home:/var/jenkins_home \
+      {{jenkins_image_name}}

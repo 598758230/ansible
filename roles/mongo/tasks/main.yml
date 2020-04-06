@@ -1,0 +1,36 @@
+#- name: 停止之前的容器
+#  shell: docker stop {{mongo_process_name}}
+#- name: 删除docker容器
+#  shell: docker rm {{mongo_process_name}}
+- name: 拉取docker镜像
+  shell: docker pull {{mongo_image_name}}
+- name: 创建映射目录db
+  shell: mkdir -p  {{mongo_root_path}}/db/
+- name: 创建脚本目录
+  shell: mkdir -p {{mongo_root_path}}/bin/
+- name: 启动mongo
+  shell: >
+      docker run -d -p {{mongo_port_27017}}:27017 \
+          -v  {{mongo_root_path}}/db:/data/db --name {{mongo_process_name}} --privileged=true --restart=always {{mongo_image_name}} \
+          --noprealloc --smallfiles --auth 
+- name: 拷贝初始化脚本
+  template: src=roles/mongo/templates/init.sh dest={{mongo_root_path}}/bin/init.sh mode="u=rwx,g=rx,o=rx"
+- name: 进入容器
+  command: sh {{mongo_root_path}}/bin/init.sh
+#  shell: >
+#      expect -c " 
+#      set timeout -1
+#      spawn docker exec -it mongo bash
+#      expect \"*/#\"
+#      send \"mongo\n\"
+#      expect \">*\"
+#      send \"use admin;\n\"
+#      expect \"switched*\"
+#      expect \">\"
+#      send 'db.createUser(\{\"user\":\"root\",\"pwd\":\"UGaIngbIRDaN\",\"roles\":\[\{\"role\":\"root\",\"db\":\"admin\"\}\]\});\n'
+#      send \"exit\n\"
+#      expect \"*/#\"
+#      send \"exit\n\"
+#      expect eof"
+#      exit
+

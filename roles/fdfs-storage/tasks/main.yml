@@ -1,0 +1,67 @@
+- name: 创建所需目录 {{fdfs.tracker.hosts}}
+  shell: mkdir -p /opt/fdfs
+- name: 拷贝安装包到目标路径
+  copy: 
+      src: roles/fdfs-storage/files/
+      dest: /opt/fdfs/
+      owner: root
+      group: root
+      mode: u=rw,g=rw,o=rw
+- name: 拷贝模板client.conf
+  template:  
+      src: roles/fdfs-storage/templates/client.conf
+      dest: /opt/fdfs/client.conf
+      owner: root
+      group: root
+      mode: u=rw,g=rw,o=rw
+- name: 拷贝模板mod_fastdfs.conf
+  template:
+      src: roles/fdfs-storage/templates/mod_fastdfs.conf
+      dest: /opt/fdfs/mod_fastdfs.conf
+      owner: root
+      group: root
+      mode: u=rw,g=rw,o=rw
+- name: 拷贝模板nginx.conf
+  template:
+      src: roles/fdfs-storage/templates/nginx.conf
+      dest: /opt/fdfs/nginx.conf
+      owner: root
+      group: root
+      mode: u=rw,g=rw,o=rw
+- name: 拷贝模板start.sh
+  template:
+      src: roles/fdfs-storage/templates/start.sh
+      dest: /opt/fdfs/start.sh
+      owner: root
+      group: root
+      mode: u=rw,g=rw,o=rw
+- name: 拷贝模板storage.conf
+  template:
+      src: roles/fdfs-storage/templates/storage.conf
+      dest: /opt/fdfs/storage.conf
+      owner: root
+      group: root
+      mode: u=rw,g=rw,o=rw
+- name: 运行dockerfile生成docker镜像
+  shell: docker build -f /opt/fdfs/Dockerfile -t {{fdfs.image.name}} /opt/fdfs/
+- name: 创建nginx目录
+  shell: mkdir -p {{nginx.config}}
+- name: 复制配置文件到映射路径下
+  shell: cp /opt/fdfs/nginx.conf {{nginx.config}}/nginx.conf 
+- name: 创建fdfs配置目录
+  shell: mkdir -p {{fdfs.config}}
+- name: 复制fdfs配置文件到指定目录
+  shell: cp /opt/fdfs/{client.conf,mod_fastdfs.conf,storage.conf} {{fdfs.config}}
+- name: 创建相关目录
+  shell: mkdir -p {{fdfs.data}} && mkdir -p {{fdfs.config}}
+- name: 启动容器
+  shell: >
+      docker run -di \
+      --net=host \
+      --name {{fdfs.process.name}} \
+      -v {{fdfs.data}}:/home/fdfs/fastdf0 \
+      -v {{fdfs.config}}/client.conf:/etc/fdfs/client.conf \ 
+      -v {{fdfs.config}}/mod_fastdfs.conf:/etc/fdfs/mod_fastdfs.conf \
+      -v {{fdfs.config}}/storage.conf:/etc/fdfs/storage.conf \
+      -v {{nginx.config}}/nginx.conf:/usr/local/nginx/conf/nginx.conf \
+      --restart=always {{fdfs.image.name}} 

@@ -1,0 +1,5 @@
+- hosts: server188
+  gather_facts: False
+  remote_user: root
+  roles:
+    - fdfs

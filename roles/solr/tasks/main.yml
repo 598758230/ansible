@@ -1,0 +1,10 @@
+- name: 下载docker 镜像
+  shell: docker pull {{solr_image_name}}
+- name: 安装solr
+  shell: docker run --name {{solr_process_name}} --restart=always -idt -p {{solr_port_8983}}:8983 {{solr_image_name}}
+- name: 创建目录
+  shell: mkdir -p /home/app/solr/
+- name: 复制创建core的脚本
+  template: src=roles/solr/templates/createCore.sh dest=/home/app/solr/createCore.sh
+- name: 执行脚本创建core
+  shell: sh /home/app/solr/createCore.sh

@@ -1,0 +1,18 @@
+- name: 创建插件目录
+  shell: mkdir -p {{sonarqube_plugins_path}}
+- name: 将汉化包复制到指定目录
+  copy:  
+      src: roles/sonarqube/templates/sonar-l10n-zh-plugin-1.19.jar
+      dest: /server/data/docker/sonarqube/plugins/sonar-l10n-zh-plugin-1.19.jar
+      owner: root
+      group: root
+      mode: u=rwx,g=rw,o=rw
+- name: 拉取镜像
+  shell: docker pull {{sonarqube_image_name}}
+- name: 创建容器
+  shell: >
+      docker run -d --name {{sonarqube_ps_name}} \
+             --restart always \
+             -v {{sonarqube_plugins_path}}/sonar-l10n-zh-plugin-1.19.jar:/opt/sonarqube/extensions/plugins/sonar-l10n-zh-plugin-1.19.jar \
+             -p {{sonarqube_port_9000}}:9000 -p {{sonarqube_port_9092}}:9092 \
+             {{sonarqube_image_name}}

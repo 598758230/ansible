@@ -1,0 +1,2 @@
+nginx_image_name: 172.16.100.169:1180/tools/nginx
+nginx_process_name: nginx

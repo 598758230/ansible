@@ -1,0 +1,27 @@
+- name: 创建所需目录 {{fdfs.tracker.host}}
+  shell: mkdir -p /opt/fdfs
+- name: 拷贝安装包到目标路径
+  copy: 
+      src: roles/fdfs/files/
+      dest: /opt/fdfs/
+      owner: root
+      group: root
+      mode: u=rw,g=rw,o=rw
+- name: 拷贝配置文件到目标路径
+  copy:  
+      src: roles/fdfs/templates/
+      dest: /opt/fdfs/
+      owner: root
+      group: root
+      mode: u=rw,g=rw,o=rw
+- name: 运行dockerfile生成docker镜像
+  shell: docker build -f /opt/fdfs/Dockerfile -t {{fdfs.image.name}} /opt/fdfs/
+ 
+- name: 启动容器
+  shell: >
+      docker run -di -p {{fdfs.port.22122}}:22122 \
+      --net=host \
+      -p {{fdfs.port.23000}}:23000 -p {{fdfs.port.80}}:80 -p {{fdfs.port.9999}}:9999 -p {{fdfs.port.8888}}:8888 \
+      --name {{fdfs.process.name}} \
+      -v {{fdfs.data}}:/home/fdfs/fastdf0  -v {{fdfs.config}}:/etc/fdfs -v {{nginx.config}}:/usr/local/nginx/conf/nginx.conf \
+      --restart=always {{fdfs.image.name}} 
