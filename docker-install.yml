@@ -1,0 +1,5 @@
+---
+- name: 安装docker
+  hosts: all
+  roles:
+    - docker

@@ -1,0 +1,6 @@
+---
+  - name: 这是一个安装mysql的例子
+    hosts: all
+    roles:
+      - mysql
+  

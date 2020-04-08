@@ -1,5 +1,5 @@
 ---
-- name: 这是一个安装docker的例子
+- name: 这是一个安装mysql的例子
   hosts: all
   roles:
-    - docker
+    - mysql
