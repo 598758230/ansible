@@ -1,6 +1,7 @@
-- name: myhelloworld
+---
+- name: 这是一个 Hello World
   host: all
   tasks: 
-    - name: tasktest
-      shell: mkdir -p /root/xixi/
+  - name: tasktest
+    shell: mkdir -p /root/xixi2/
 
