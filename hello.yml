@@ -1,10 +1,5 @@
 ---
-- name: 这是一个 Hello World
+- name: 这是一个安装docker的例子
   hosts: all
-  tasks: 
-  - name: tasktest
-    shell: mkdir -p /root/xixi2/
-  - name: 变量输出测试
-    shell: echo {{hello_var}}
-  - name: 变量输出测试2
-    shell: echo {{hello_var}} > /root/aa.txt
+  roles:
+    - docker
