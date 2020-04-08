@@ -6,4 +6,5 @@
     shell: mkdir -p /root/xixi2/
   - name: 变量输出测试
     shell: echo {{hello_var}}
-
+  - name: 变量输出测试2
+    shell: echo {{hello_var}} > /root/aa.txt
