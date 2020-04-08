@@ -1,7 +1,12 @@
----
-- name: 这是一个 Hello World
-  host: all
-  tasks: 
-  - name: tasktest
-    shell: mkdir -p /root/xixi2/
-
+- hosts: server193
+  gather_facts: False
+  remote_user: root
+  roles:
+    - fdfs-tracker
+- hosts: server192
+  gather_facts: False
+  remote_user: root
+  roles:
+    - fdfs-tracker
+  
+  
