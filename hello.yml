@@ -1,6 +1,6 @@
 ---
 - name: 这是一个 Hello World
-  host: all
+  hosts: all
   tasks: 
   - name: tasktest
     shell: mkdir -p /root/xixi2/
